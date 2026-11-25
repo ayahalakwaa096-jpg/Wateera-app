@@ -1,0 +1,385 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<title>وتيرة — رتّب يومك</title>
+<script src="./vendor/react.js"></script>
+<script src="./vendor/react-dom.js"></script>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@400;500;600&amp;family=Readex+Pro:wght@400;600;700&amp;display=swap" rel="stylesheet">
+<style>
+body{margin:0}
+.lp{--bg:#FBF7F1;--surface:#FFFFFF;--ink:#1B1A17;--muted:#5C574E;--line:#E4DCCF;--primary:#C2410C;--on-primary:#FFFFFF;--soft:#FDEBDD;--soft-ink:#9A3412;--shadow:0 32px 56px -32px rgba(27,26,23,.35);--btn-bg:#1B1A17;--btn-ink:#FBF7F1;--cta-bg:#C2410C}
+.lp[data-theme="dark"]{--bg:#15130F;--surface:#201D18;--ink:#F6F1E8;--muted:#BDB5A6;--line:#38322A;--primary:#FB923C;--on-primary:#1B1A17;--soft:#2D2013;--soft-ink:#FDBA74;--shadow:0 32px 56px -32px rgba(0,0,0,.7);--btn-bg:#F6F1E8;--btn-ink:#1B1A17;--cta-bg:#9A3412}
+.lp *{box-sizing:border-box}
+.lp a{color:inherit}
+.lp .disp{font-family:'Readex Pro','Noto Kufi Arabic',sans-serif}
+.lp a:focus-visible,.lp button:focus-visible{outline:3px solid var(--primary);outline-offset:3px}
+.lp .navlinks a:hover{color:var(--primary)}
+.lp .store{display:inline-flex;align-items:center;gap:12px;min-height:56px;padding:8px 20px;border-radius:8px;background:var(--btn-bg);color:var(--btn-ink);text-decoration:none;transition:transform .2s ease}
+.lp .store:hover{transform:translateY(-2px)}
+.lp .store.light{background:#FFFFFF;color:#1B1A17}
+.lp .tick{stroke-dasharray:24;stroke-dashoffset:24;animation:draw .5s ease forwards}
+.lp .ring{stroke-dasharray:176;stroke-dashoffset:176;animation:ringfill 1.4s .6s ease forwards}
+.lp .marq{overflow:hidden}
+.lp .marq-track{display:flex;width:max-content;animation:marq 48s linear infinite}
+.lp .marq:hover .marq-track{animation-play-state:paused}
+.lp .sticker{animation:bob 4s ease-in-out infinite}
+@keyframes draw{to{stroke-dashoffset:0}}
+@keyframes ringfill{to{stroke-dashoffset:70}}
+@keyframes marq{from{transform:translateX(0)}to{transform:translateX(50%)}}
+@keyframes bob{0%,100%{transform:rotate(-4deg) translateY(0)}50%{transform:rotate(-4deg) translateY(-8px)}}
+@media (max-width:900px){.lp .navlinks{display:none!important}.lp .steparrow{display:none!important}}
+@media (prefers-reduced-motion:reduce){.lp .marq-track,.lp .sticker{animation:none}.lp .tick{animation:none;stroke-dashoffset:0}.lp .ring{animation:none;stroke-dashoffset:70}.lp .marq{overflow-x:auto}}
+</style>
+</helmet>
+<div class="lp" data-theme="{{theme}}" dir="rtl" style="background:var(--bg);color:var(--ink);font-family:'IBM Plex Sans Arabic','Almarai',sans-serif;font-size:18px;line-height:1.8;width:100%">
+
+<header style="max-width:1200px;margin:0 auto;padding:24px;display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap">
+<a href="#top" style="display:flex;align-items:center;gap:12px;text-decoration:none">
+<svg width="40" height="40" viewBox="0 0 40 40" aria-hidden="true"><rect width="40" height="40" rx="12" style="fill:var(--primary)"></rect><rect x="9" y="15" width="5" height="10" rx="2.5" style="fill:var(--on-primary)"></rect><rect x="17.5" y="9" width="5" height="22" rx="2.5" style="fill:var(--on-primary)"></rect><rect x="26" y="13" width="5" height="14" rx="2.5" style="fill:var(--on-primary)"></rect></svg>
+<span class="disp" style="font-weight:700;font-size:24px;line-height:1.4">وتيرة</span>
+</a>
+<nav class="navlinks" aria-label="التنقل الرئيسي" style="display:flex;gap:32px;font-size:16px;font-weight:500">
+<a href="#features" style="text-decoration:none;min-height:44px;display:inline-flex;align-items:center">المميزات</a>
+<a href="#how" style="text-decoration:none;min-height:44px;display:inline-flex;align-items:center">كيف يعمل</a>
+<a href="#screens" style="text-decoration:none;min-height:44px;display:inline-flex;align-items:center">لقطات</a>
+<a href="#reviews" style="text-decoration:none;min-height:44px;display:inline-flex;align-items:center">آراء المستخدمين</a>
+</nav>
+<div style="display:flex;align-items:center;gap:16px">
+<button onClick="{{toggleTheme}}" aria-label="تبديل الوضع الداكن" aria-pressed="{{isDark}}" style="width:48px;height:48px;border-radius:8px;border:1px solid var(--line);background:var(--surface);color:var(--ink);cursor:pointer;display:grid;place-items:center;padding:0">
+<sc-if value="{{isLight}}" hint-placeholder-val="{{true}}">
+<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"></path></svg>
+</sc-if>
+<sc-if value="{{isDark}}" hint-placeholder-val="{{false}}">
+<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="4"></circle><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"></path></svg>
+</sc-if>
+</button>
+<a href="#download" style="display:inline-flex;align-items:center;min-height:48px;padding:0 24px;border-radius:8px;background:var(--primary);color:var(--on-primary);text-decoration:none;font-size:16px;font-weight:600">حمّل التطبيق</a>
+</div>
+</header>
+
+<section id="top" style="max-width:1200px;margin:0 auto;padding:48px 24px 96px;display:flex;flex-wrap:wrap;align-items:center;gap:64px">
+<div style="flex:1 1 440px;min-width:0;display:flex;flex-direction:column;align-items:flex-start;gap:24px">
+<span style="display:inline-flex;align-items:center;gap:8px;padding:4px 16px;border-radius:8px;background:var(--soft);color:var(--soft-ink);font-size:15px;font-weight:600">تطبيق إنتاجية للمشغولين</span>
+<h1 class="disp" style="margin:0;font-weight:700;font-size:clamp(40px,5.4vw,72px);line-height:1.4">رتّب يومك،<br>وأنجز <span style="position:relative;display:inline-block;color:var(--primary)">بهدوء<svg viewBox="0 0 200 16" preserveAspectRatio="none" aria-hidden="true" style="position:absolute;left:0;right:0;bottom:-4px;width:100%;height:14px"><path d="M4 10 C 40 2, 70 14, 100 7 S 170 4, 196 9" fill="none" stroke="currentColor" stroke-width="5" stroke-linecap="round"></path></svg></span>.</h1>
+<p style="margin:0;max-width:520px;font-size:20px;line-height:1.8;color:var(--muted)">وتيرة تحوّل قائمة مهامك المبعثرة إلى خطة يومية واضحة، وتذكّرك بما يهم فعلًا، لتنجز أكثر وتتعب أقل.</p>
+<div style="display:flex;flex-wrap:wrap;gap:16px">
+<a class="store" href="#download"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 4v11m0 0l-4-4m4 4l4-4M5 20h14"></path></svg><span style="display:flex;flex-direction:column;line-height:1.3"><span style="font-size:13px">حمّل من</span><span class="disp" style="font-size:18px;font-weight:600">App Store</span></span></a>
+<a class="store" href="#download"><svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M6 3.5v17a1 1 0 0 0 1.5.9l14-8.5a1 1 0 0 0 0-1.8l-14-8.5A1 1 0 0 0 6 3.5z"></path></svg><span style="display:flex;flex-direction:column;line-height:1.3"><span style="font-size:13px">حمّل من</span><span class="disp" style="font-size:18px;font-weight:600">Google Play</span></span></a>
+</div>
+<a href="#how" style="display:inline-flex;align-items:center;gap:8px;min-height:48px;font-size:17px;font-weight:600;color:var(--primary);text-decoration:none">شاهد كيف يعمل<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M19 12H5m0 0l6-6m-6 6l6 6"></path></svg></a>
+<ul style="list-style:none;margin:0;padding:0;display:flex;flex-wrap:wrap;gap:8px 24px;font-size:15px;color:var(--muted)">
+<li style="display:flex;align-items:center;gap:8px"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="color:var(--primary)"><path d="M5 12.5l4.5 4.5L19 7"></path></svg>مجاني للبدء</li>
+<li style="display:flex;align-items:center;gap:8px"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="color:var(--primary)"><path d="M5 12.5l4.5 4.5L19 7"></path></svg>بدون إعلانات</li>
+<li style="display:flex;align-items:center;gap:8px"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="color:var(--primary)"><path d="M5 12.5l4.5 4.5L19 7"></path></svg>يعمل بدون اتصال</li>
+</ul>
+</div>
+
+<div style="flex:1 1 360px;min-width:0;position:relative;display:flex;justify-content:center;align-items:center;min-height:660px">
+<div aria-hidden="true" style="position:absolute;width:440px;height:440px;max-width:100%;border-radius:50%;background:var(--soft)"></div>
+<svg aria-hidden="true" viewBox="0 0 120 120" width="120" height="120" style="position:absolute;top:8px;right:8px;color:var(--primary)"><path d="M12 70 C 8 30, 50 6, 86 18 C 104 24, 112 44, 108 62" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-dasharray="2 9"></path><path d="M98 52 L108 64 L118 50" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"></path></svg>
+<div style="position:relative;z-index:1;width:288px;height:592px;border-radius:44px;background:#1B1A17;padding:10px;box-shadow:var(--shadow)">
+<div style="width:100%;height:100%;border-radius:36px;background:var(--bg);padding:32px 16px 16px;display:flex;flex-direction:column;gap:16px;overflow:hidden">
+<div style="display:flex;align-items:center;justify-content:space-between;gap:12px">
+<div>
+<div class="disp" style="font-weight:700;font-size:20px;line-height:1.5">مهام اليوم</div>
+<div style="font-size:13px;line-height:1.5;color:var(--muted)">الأربعاء، ١١ نوفمبر</div>
+</div>
+<svg width="64" height="64" viewBox="0 0 64 64" role="img" aria-label="أنجزت ٣ من ٥ مهام"><g transform="rotate(-90 32 32)"><circle cx="32" cy="32" r="28" fill="none" stroke-width="6" style="stroke:var(--line)"></circle><circle class="ring" cx="32" cy="32" r="28" fill="none" stroke-width="6" stroke-linecap="round" style="stroke:var(--primary)"></circle></g><text x="32" y="37" text-anchor="middle" class="disp" style="font-weight:700;font-size:15px;fill:var(--ink)">٣/٥</text></svg>
+</div>
+<div style="display:flex;flex-direction:column;gap:8px">
+<sc-for list="{{tasks}}" as="task" hint-placeholder-count="5">
+<sc-if value="{{task.done}}" hint-placeholder-val="{{true}}">
+<div style="display:flex;align-items:center;gap:12px;padding:8px 12px;min-height:56px;border:1px solid var(--line);border-radius:12px;background:var(--surface)">
+<span style="width:24px;height:24px;border-radius:50%;background:var(--primary);display:grid;place-items:center;flex:none"><svg width="14" height="14" viewBox="0 0 24 24" aria-hidden="true"><path class="tick" style="animation-delay:{{task.delay}};stroke:var(--on-primary)" d="M5 12.5l4.5 4.5L19 7" fill="none" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"></path></svg></span>
+<span style="flex:1;min-width:0;font-size:14px;line-height:1.5;font-weight:500;color:var(--muted);text-decoration:line-through">{{task.title}}</span>
+<span style="font-size:12px;color:var(--muted)">{{task.time}}</span>
+</div>
+</sc-if>
+<sc-if value="{{task.open}}" hint-placeholder-val="{{false}}">
+<div style="display:flex;align-items:center;gap:12px;padding:8px 12px;min-height:56px;border:1px solid var(--line);border-radius:12px;background:var(--surface)">
+<span style="width:24px;height:24px;border-radius:50%;border:2px solid var(--muted);flex:none"></span>
+<span style="flex:1;min-width:0;font-size:14px;line-height:1.5;font-weight:600">{{task.title}}</span>
+<span style="font-size:12px;padding:0 8px;border-radius:8px;background:var(--soft);color:var(--soft-ink);font-weight:600">{{task.time}}</span>
+</div>
+</sc-if>
+</sc-for>
+</div>
+<div style="margin-top:auto;min-height:48px;border-radius:8px;background:var(--primary);color:var(--on-primary);display:flex;align-items:center;justify-content:center;font-size:15px;font-weight:600">ابدأ جلسة تركيز</div>
+</div>
+</div>
+<div class="sticker" style="position:absolute;z-index:2;left:0;bottom:96px;display:flex;align-items:center;gap:8px;padding:8px 16px;border-radius:12px;background:var(--surface);border:1px solid var(--line);box-shadow:var(--shadow);font-size:15px;font-weight:600">
+<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="color:var(--primary)"><path d="M5 12.5l4.5 4.5L19 7"></path></svg>
+أنجزت ٣ مهام اليوم
+</div>
+</div>
+</section>
+
+<section id="features" style="max-width:1200px;margin:0 auto;padding:96px 24px">
+<div style="display:flex;flex-direction:column;align-items:flex-start;gap:16px;max-width:640px;margin-bottom:48px">
+<span style="font-size:15px;font-weight:600;color:var(--primary)">المميزات</span>
+<h2 class="disp" style="margin:0;font-weight:700;font-size:clamp(32px,3.6vw,48px);line-height:1.5">كل ما تحتاجه ليوم منظّم، بلا تعقيد</h2>
+<p style="margin:0;font-size:18px;color:var(--muted)">أربع أدوات بسيطة تعمل معًا، لتبدأ يومك بوضوح وتنهيه برضا.</p>
+</div>
+<div style="display:flex;flex-wrap:wrap;gap:24px">
+<article style="flex:1 1 240px;min-width:0;display:flex;flex-direction:column;gap:16px;padding:32px;border:1px solid var(--line);border-radius:12px;background:var(--surface)">
+<div style="display:flex;justify-content:space-between;align-items:flex-start">
+<span style="width:56px;height:56px;border-radius:12px;background:var(--soft);color:var(--soft-ink);display:grid;place-items:center"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 6h9M4 12h6M4 18h5"></path><path d="M18 4l1 2.5 2.5 1-2.5 1-1 2.5-1-2.5-2.5-1 2.5-1z"></path></svg></span>
+<span class="disp" style="font-size:20px;font-weight:600;color:var(--muted)">٠١</span>
+</div>
+<h3 class="disp" style="margin:0;font-weight:600;font-size:22px;line-height:1.5">تنظيم ذكي للمهام</h3>
+<p style="margin:0;font-size:16px;color:var(--muted)">رتّب مهامك تلقائيًا حسب الأولوية والوقت المتاح، ودع وتيرة تقترح عليك ما تبدأ به أولًا.</p>
+</article>
+<article style="flex:1 1 240px;min-width:0;display:flex;flex-direction:column;gap:16px;padding:32px;border:1px solid var(--line);border-radius:12px;background:var(--surface)">
+<div style="display:flex;justify-content:space-between;align-items:flex-start">
+<span style="width:56px;height:56px;border-radius:12px;background:var(--soft);color:var(--soft-ink);display:grid;place-items:center"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="4"></circle><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"></path></svg></span>
+<span class="disp" style="font-size:20px;font-weight:600;color:var(--muted)">٠٢</span>
+</div>
+<h3 class="disp" style="margin:0;font-weight:600;font-size:22px;line-height:1.5">تحفيز يومي</h3>
+<p style="margin:0;font-size:16px;color:var(--muted)">رسالة قصيرة كل صباح وتذكيرات لطيفة تشجّعك على المتابعة، دون إزعاج أو ضغط.</p>
+</article>
+<article style="flex:1 1 240px;min-width:0;display:flex;flex-direction:column;gap:16px;padding:32px;border:1px solid var(--line);border-radius:12px;background:var(--surface)">
+<div style="display:flex;justify-content:space-between;align-items:flex-start">
+<span style="width:56px;height:56px;border-radius:12px;background:var(--soft);color:var(--soft-ink);display:grid;place-items:center"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="13" r="8"></circle><path d="M12 9v4l2.5 2M9 2h6"></path></svg></span>
+<span class="disp" style="font-size:20px;font-weight:600;color:var(--muted)">٠٣</span>
+</div>
+<h3 class="disp" style="margin:0;font-weight:600;font-size:22px;line-height:1.5">مؤقت تركيز</h3>
+<p style="margin:0;font-size:16px;color:var(--muted)">جلسات قصيرة تتخللها استراحات، تساعدك على إنهاء المهمة بدل تأجيلها إلى الغد.</p>
+</article>
+<article style="flex:1 1 240px;min-width:0;display:flex;flex-direction:column;gap:16px;padding:32px;border:1px solid var(--line);border-radius:12px;background:var(--surface)">
+<div style="display:flex;justify-content:space-between;align-items:flex-start">
+<span style="width:56px;height:56px;border-radius:12px;background:var(--soft);color:var(--soft-ink);display:grid;place-items:center"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 20V10M12 20V4M19 20v-7"></path></svg></span>
+<span class="disp" style="font-size:20px;font-weight:600;color:var(--muted)">٠٤</span>
+</div>
+<h3 class="disp" style="margin:0;font-weight:600;font-size:22px;line-height:1.5">تتبّع الإنجاز</h3>
+<p style="margin:0;font-size:16px;color:var(--muted)">لوحة بسيطة تعرض ما أنجزته يوميًا وأسبوعيًا، فترى تقدّمك بوضوح وتواصل بحماس.</p>
+</article>
+</div>
+</section>
+
+<section id="how" style="background:var(--surface);border-top:1px solid var(--line);border-bottom:1px solid var(--line)">
+<div style="max-width:1200px;margin:0 auto;padding:96px 24px">
+<div style="display:flex;flex-direction:column;align-items:flex-start;gap:16px;max-width:640px;margin-bottom:64px">
+<span style="font-size:15px;font-weight:600;color:var(--primary)">كيف يعمل</span>
+<h2 class="disp" style="margin:0;font-weight:700;font-size:clamp(32px,3.6vw,48px);line-height:1.5">ثلاث خطوات، ويبدأ يومك</h2>
+</div>
+<div style="display:flex;flex-wrap:wrap;align-items:flex-start;gap:48px">
+<div style="flex:1 1 260px;min-width:0;display:flex;flex-direction:column;gap:16px">
+<div style="display:flex;align-items:center;gap:16px">
+<span style="width:72px;height:72px;border-radius:50%;background:var(--soft);color:var(--soft-ink);display:grid;place-items:center"><svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 5v14M5 12h14"></path></svg></span>
+<span class="disp" style="font-weight:700;font-size:56px;line-height:1.2;color:var(--primary)">١</span>
+</div>
+<h3 class="disp" style="margin:0;font-weight:600;font-size:24px;line-height:1.5">أضف مهامك</h3>
+<p style="margin:0;font-size:16px;color:var(--muted)">اكتب ما يشغل بالك أو أمله بصوتك، ولا تقلق من الترتيب، فهذه مهمتنا.</p>
+</div>
+<span class="steparrow" aria-hidden="true" style="align-self:center;color:var(--muted)"><svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5m0 0l6-6m-6 6l6 6"></path></svg></span>
+<div style="flex:1 1 260px;min-width:0;display:flex;flex-direction:column;gap:16px">
+<div style="display:flex;align-items:center;gap:16px">
+<span style="width:72px;height:72px;border-radius:50%;background:var(--soft);color:var(--soft-ink);display:grid;place-items:center"><svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="5" width="18" height="16" rx="3"></rect><path d="M3 10h18M8 3v4M16 3v4"></path></svg></span>
+<span class="disp" style="font-weight:700;font-size:56px;line-height:1.2;color:var(--primary)">٢</span>
+</div>
+<h3 class="disp" style="margin:0;font-weight:600;font-size:24px;line-height:1.5">استلم خطتك اليومية</h3>
+<p style="margin:0;font-size:16px;color:var(--muted)">تقترح وتيرة جدولًا واقعيًا ليومك بحسب أولوياتك ووقتك المتاح.</p>
+</div>
+<span class="steparrow" aria-hidden="true" style="align-self:center;color:var(--muted)"><svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5m0 0l6-6m-6 6l6 6"></path></svg></span>
+<div style="flex:1 1 260px;min-width:0;display:flex;flex-direction:column;gap:16px">
+<div style="display:flex;align-items:center;gap:16px">
+<span style="width:72px;height:72px;border-radius:50%;background:var(--soft);color:var(--soft-ink);display:grid;place-items:center"><svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"></circle><circle cx="12" cy="12" r="5"></circle><circle cx="12" cy="12" r="1"></circle></svg></span>
+<span class="disp" style="font-weight:700;font-size:56px;line-height:1.2;color:var(--primary)">٣</span>
+</div>
+<h3 class="disp" style="margin:0;font-weight:600;font-size:24px;line-height:1.5">ابدأ التركيز</h3>
+<p style="margin:0;font-size:16px;color:var(--muted)">شغّل المؤقت وأنجز مهمة واحدة في كل مرة، ثم احتفل بما أنجزته.</p>
+</div>
+</div>
+</div>
+</section>
+
+<section id="screens" style="padding:96px 0">
+<div style="max-width:1200px;margin:0 auto;padding:0 24px 48px;display:flex;flex-direction:column;align-items:flex-start;gap:16px">
+<span style="font-size:15px;font-weight:600;color:var(--primary)">لقطات من التطبيق</span>
+<h2 class="disp" style="margin:0;font-weight:700;font-size:clamp(32px,3.6vw,48px);line-height:1.5;max-width:640px">واجهة هادئة، تُبقي انتباهك على ما يهم</h2>
+</div>
+<div class="marq" style="-webkit-mask-image:linear-gradient(to right,transparent,#000 8%,#000 92%,transparent);mask-image:linear-gradient(to right,transparent,#000 8%,#000 92%,transparent)">
+<div class="marq-track">
+<sc-for list="{{loops}}" as="loop" hint-placeholder-count="2">
+<div aria-hidden="{{loop.hidden}}" style="display:flex;gap:32px;padding:16px 0;padding-inline-end:32px">
+
+<figure style="margin:0;display:flex;flex-direction:column;align-items:center;gap:16px">
+<div style="width:240px;height:492px;border-radius:36px;background:#1B1A17;padding:8px;box-shadow:var(--shadow)">
+<div style="width:100%;height:100%;border-radius:29px;background:var(--bg);padding:24px 16px 16px;display:flex;flex-direction:column;gap:16px;overflow:hidden">
+<div class="disp" style="font-weight:700;font-size:18px;line-height:1.5">قائمة المهام</div>
+<div style="display:flex;gap:8px">
+<span style="padding:0 16px;min-height:32px;display:inline-flex;align-items:center;border-radius:8px;background:var(--primary);color:var(--on-primary);font-size:13px;font-weight:600">اليوم</span>
+<span style="padding:0 16px;min-height:32px;display:inline-flex;align-items:center;border-radius:8px;border:1px solid var(--line);font-size:13px;color:var(--muted)">القادمة</span>
+<span style="padding:0 16px;min-height:32px;display:inline-flex;align-items:center;border-radius:8px;border:1px solid var(--line);font-size:13px;color:var(--muted)">المنجزة</span>
+</div>
+<div style="display:flex;flex-direction:column;gap:8px">
+<div style="display:flex;flex-direction:column;gap:4px;padding:12px;border:1px solid var(--line);border-radius:12px;background:var(--surface)"><span style="font-size:14px;font-weight:600;line-height:1.5">تسليم مسودة العرض</span><span style="font-size:12px;color:var(--soft-ink);font-weight:600">عاجل · قبل الظهر</span></div>
+<div style="display:flex;flex-direction:column;gap:4px;padding:12px;border:1px solid var(--line);border-radius:12px;background:var(--surface)"><span style="font-size:14px;font-weight:600;line-height:1.5">حجز موعد الطبيب</span><span style="font-size:12px;color:var(--muted)">مهم · اليوم</span></div>
+<div style="display:flex;flex-direction:column;gap:4px;padding:12px;border:1px solid var(--line);border-radius:12px;background:var(--surface)"><span style="font-size:14px;font-weight:600;line-height:1.5">شراء مستلزمات المنزل</span><span style="font-size:12px;color:var(--muted)">عادي · المساء</span></div>
+<div style="display:flex;flex-direction:column;gap:4px;padding:12px;border:1px solid var(--line);border-radius:12px;background:var(--surface)"><span style="font-size:14px;font-weight:600;line-height:1.5">قراءة ٢٠ صفحة</span><span style="font-size:12px;color:var(--muted)">عادي · قبل النوم</span></div>
+</div>
+</div>
+</div>
+<figcaption style="font-size:16px;font-weight:600">قائمة المهام</figcaption>
+</figure>
+
+<figure style="margin:0;display:flex;flex-direction:column;align-items:center;gap:16px">
+<div style="width:240px;height:492px;border-radius:36px;background:#1B1A17;padding:8px;box-shadow:var(--shadow)">
+<div style="width:100%;height:100%;border-radius:29px;background:var(--bg);padding:24px 16px 16px;display:flex;flex-direction:column;align-items:center;gap:16px;overflow:hidden">
+<div class="disp" style="align-self:flex-start;font-weight:700;font-size:18px;line-height:1.5">وضع التركيز</div>
+<span style="font-size:13px;padding:0 12px;border-radius:8px;background:var(--soft);color:var(--soft-ink);font-weight:600">الجلسة ٢ من ٤</span>
+<svg width="168" height="168" viewBox="0 0 168 168" role="img" aria-label="متبقٍ ١٦ دقيقة و٤٠ ثانية" style="margin-top:8px"><g transform="rotate(-90 84 84)"><circle cx="84" cy="84" r="72" fill="none" stroke-width="10" style="stroke:var(--line)"></circle><circle cx="84" cy="84" r="72" fill="none" stroke-width="10" stroke-linecap="round" stroke-dasharray="452" stroke-dashoffset="150" style="stroke:var(--primary)"></circle></g><text x="84" y="94" text-anchor="middle" class="disp" style="font-weight:700;font-size:34px;fill:var(--ink)">١٦:٤٠</text></svg>
+<div style="font-size:14px;font-weight:600;text-align:center;line-height:1.5">كتابة عرض المشروع</div>
+<div style="display:flex;gap:8px;width:100%;margin-top:auto">
+<span style="flex:1;min-height:44px;display:flex;align-items:center;justify-content:center;border-radius:8px;background:var(--primary);color:var(--on-primary);font-size:14px;font-weight:600">إيقاف مؤقت</span>
+<span style="flex:1;min-height:44px;display:flex;align-items:center;justify-content:center;border-radius:8px;border:1px solid var(--line);font-size:14px;font-weight:600">إنهاء</span>
+</div>
+</div>
+</div>
+<figcaption style="font-size:16px;font-weight:600">وضع التركيز</figcaption>
+</figure>
+
+<figure style="margin:0;display:flex;flex-direction:column;align-items:center;gap:16px">
+<div style="width:240px;height:492px;border-radius:36px;background:#1B1A17;padding:8px;box-shadow:var(--shadow)">
+<div style="width:100%;height:100%;border-radius:29px;background:var(--bg);padding:24px 16px 16px;display:flex;flex-direction:column;gap:16px;overflow:hidden">
+<div class="disp" style="font-weight:700;font-size:18px;line-height:1.5">لوحة الإنجاز</div>
+<div style="padding:16px;border:1px solid var(--line);border-radius:12px;background:var(--surface);display:flex;flex-direction:column;gap:4px">
+<span style="font-size:13px;color:var(--muted)">هذا الأسبوع</span>
+<span class="disp" style="font-weight:700;font-size:28px;line-height:1.4">١٢ مهمة منجزة</span>
+</div>
+<div style="display:flex;align-items:flex-end;justify-content:space-between;gap:8px;height:128px;padding:0 4px">
+<sc-for list="{{bars}}" as="bar" hint-placeholder-count="7">
+<div style="flex:1;display:flex;flex-direction:column;align-items:center;gap:8px;justify-content:flex-end;height:100%">
+<div style="width:100%;border-radius:8px;background:var(--primary);height:{{bar.h}};opacity:{{bar.o}}"></div>
+<span style="font-size:12px;color:var(--muted)">{{bar.d}}</span>
+</div>
+</sc-for>
+</div>
+<div style="margin-top:auto;padding:12px 16px;border-radius:12px;background:var(--soft);color:var(--soft-ink);font-size:14px;font-weight:600;line-height:1.6">حققت ٨٠٪ من هدفك الأسبوعي</div>
+</div>
+</div>
+<figcaption style="font-size:16px;font-weight:600">لوحة الإنجاز</figcaption>
+</figure>
+
+<figure style="margin:0;display:flex;flex-direction:column;align-items:center;gap:16px">
+<div style="width:240px;height:492px;border-radius:36px;background:#1B1A17;padding:8px;box-shadow:var(--shadow)">
+<div style="width:100%;height:100%;border-radius:29px;background:var(--bg);padding:24px 16px 16px;display:flex;flex-direction:column;gap:16px;overflow:hidden">
+<div class="disp" style="font-weight:700;font-size:18px;line-height:1.5">صباح الخير</div>
+<div style="padding:16px;border-radius:12px;background:var(--soft);display:flex;flex-direction:column;gap:8px">
+<span style="font-size:12px;font-weight:600;color:var(--soft-ink)">رسالة اليوم</span>
+<span class="disp" style="font-size:17px;font-weight:600;line-height:1.7;color:var(--soft-ink)">خطوة صغيرة اليوم تصنع فرقًا كبيرًا غدًا.</span>
+</div>
+<div style="padding:16px;border:1px solid var(--line);border-radius:12px;background:var(--surface);display:flex;flex-direction:column;gap:12px">
+<span style="font-size:14px;font-weight:600">٧ أيام متتالية</span>
+<div style="display:flex;gap:8px"><span style="flex:1;height:8px;border-radius:8px;background:var(--primary)"></span><span style="flex:1;height:8px;border-radius:8px;background:var(--primary)"></span><span style="flex:1;height:8px;border-radius:8px;background:var(--primary)"></span><span style="flex:1;height:8px;border-radius:8px;background:var(--primary)"></span><span style="flex:1;height:8px;border-radius:8px;background:var(--primary)"></span><span style="flex:1;height:8px;border-radius:8px;background:var(--primary)"></span><span style="flex:1;height:8px;border-radius:8px;background:var(--primary)"></span></div>
+</div>
+<div style="margin-top:auto;min-height:48px;border-radius:8px;background:var(--primary);color:var(--on-primary);display:flex;align-items:center;justify-content:center;font-size:15px;font-weight:600">ابدأ يومك</div>
+</div>
+</div>
+<figcaption style="font-size:16px;font-weight:600">تحفيز يومي</figcaption>
+</figure>
+
+</div>
+</sc-for>
+</div>
+</div>
+</section>
+
+<section id="reviews" style="background:var(--surface);border-top:1px solid var(--line);border-bottom:1px solid var(--line)">
+<div style="max-width:1200px;margin:0 auto;padding:96px 24px">
+<div style="display:flex;flex-direction:column;align-items:flex-start;gap:16px;max-width:640px;margin-bottom:48px">
+<span style="font-size:15px;font-weight:600;color:var(--primary)">آراء المستخدمين</span>
+<h2 class="disp" style="margin:0;font-weight:700;font-size:clamp(32px,3.6vw,48px);line-height:1.5">أيام أخفّ، بكلماتهم</h2>
+</div>
+<div style="display:flex;flex-wrap:wrap;gap:24px">
+<figure style="flex:1 1 300px;min-width:0;margin:0;padding:32px;border:1px solid var(--line);border-radius:12px;background:var(--bg);display:flex;flex-direction:column;gap:24px">
+<span class="disp" aria-hidden="true" style="font-size:56px;line-height:0.8;color:var(--primary)">”</span>
+<blockquote style="margin:0;font-size:18px;line-height:1.9">كنت أضيّع الصباح في التفكير بما أبدأ به. الآن تقترح وتيرة ترتيبًا واضحًا، فأبدأ يومي مباشرة دون تردد.</blockquote>
+<figcaption style="display:flex;align-items:center;gap:16px;margin-top:auto">
+<svg width="48" height="48" viewBox="0 0 48 48" aria-hidden="true"><circle cx="24" cy="24" r="24" style="fill:var(--primary)"></circle><circle cx="24" cy="24" r="9" style="fill:var(--on-primary)"></circle></svg>
+<span style="display:flex;flex-direction:column;line-height:1.5"><span style="font-weight:600">سارة العتيبي</span><span style="font-size:15px;color:var(--muted)">مصممة جرافيك</span></span>
+</figcaption>
+</figure>
+<figure style="flex:1 1 300px;min-width:0;margin:0;padding:32px;border:1px solid var(--line);border-radius:12px;background:var(--bg);display:flex;flex-direction:column;gap:24px">
+<span class="disp" aria-hidden="true" style="font-size:56px;line-height:0.8;color:var(--primary)">”</span>
+<blockquote style="margin:0;font-size:18px;line-height:1.9">مؤقت التركيز غيّر طريقة عملي. جلسات قصيرة واستراحات منتظمة، وصرت أنهي المهام الصعبة قبل الظهر.</blockquote>
+<figcaption style="display:flex;align-items:center;gap:16px;margin-top:auto">
+<svg width="48" height="48" viewBox="0 0 48 48" aria-hidden="true"><rect width="48" height="48" rx="12" style="fill:var(--ink)"></rect><path d="M12 36L24 12l12 24z" style="fill:var(--bg)"></path></svg>
+<span style="display:flex;flex-direction:column;line-height:1.5"><span style="font-weight:600">عبدالله الحربي</span><span style="font-size:15px;color:var(--muted)">مهندس برمجيات</span></span>
+</figcaption>
+</figure>
+<figure style="flex:1 1 300px;min-width:0;margin:0;padding:32px;border:1px solid var(--line);border-radius:12px;background:var(--bg);display:flex;flex-direction:column;gap:24px">
+<span class="disp" aria-hidden="true" style="font-size:56px;line-height:0.8;color:var(--primary)">”</span>
+<blockquote style="margin:0;font-size:18px;line-height:1.9">أحب لوحة الإنجاز، فأرى ما أنجزته كل أسبوع وأشعر بالتقدّم حتى في الأيام المزدحمة. والرسائل التحفيزية لطيفة وغير مزعجة.</blockquote>
+<figcaption style="display:flex;align-items:center;gap:16px;margin-top:auto">
+<svg width="48" height="48" viewBox="0 0 48 48" aria-hidden="true"><rect width="48" height="48" rx="24" style="fill:var(--soft)"></rect><path d="M8 30a16 16 0 0 1 32 0z" style="fill:var(--primary)"></path></svg>
+<span style="display:flex;flex-direction:column;line-height:1.5"><span style="font-weight:600">نورة القحطاني</span><span style="font-size:15px;color:var(--muted)">طالبة دراسات عليا</span></span>
+</figcaption>
+</figure>
+</div>
+</div>
+</section>
+
+<section id="download" style="max-width:1200px;margin:0 auto;padding:96px 24px">
+<div style="position:relative;overflow:hidden;background:var(--cta-bg);color:#FFFFFF;border-radius:12px;padding:80px 32px;display:flex;flex-direction:column;align-items:center;text-align:center;gap:24px">
+<div aria-hidden="true" style="position:absolute;width:320px;height:320px;border-radius:50%;background:rgba(255,255,255,.08);top:-120px;right:-80px"></div>
+<div aria-hidden="true" style="position:absolute;width:240px;height:240px;border-radius:50%;border:2px dashed rgba(255,255,255,.3);bottom:-100px;left:-60px"></div>
+<svg width="96" height="96" viewBox="0 0 40 40" role="img" aria-label="أيقونة تطبيق وتيرة" style="position:relative"><rect width="40" height="40" rx="10" fill="#FFFFFF"></rect><rect x="9" y="15" width="5" height="10" rx="2.5" fill="#C2410C"></rect><rect x="17.5" y="9" width="5" height="22" rx="2.5" fill="#C2410C"></rect><rect x="26" y="13" width="5" height="14" rx="2.5" fill="#C2410C"></rect></svg>
+<h2 class="disp" style="position:relative;margin:0;font-weight:700;font-size:clamp(36px,4.4vw,56px);line-height:1.5">جاهز تتحكم في يومك؟</h2>
+<p style="position:relative;margin:0;max-width:520px;font-size:19px">حمّل وتيرة الآن، وابدأ غدك بخطة واضحة وهدوء أكبر. مجاني للبدء، وبدون إعلانات.</p>
+<div style="position:relative;display:flex;flex-wrap:wrap;justify-content:center;gap:16px">
+<a class="store light" href="#top"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 4v11m0 0l-4-4m4 4l4-4M5 20h14"></path></svg><span style="display:flex;flex-direction:column;line-height:1.3;text-align:start"><span style="font-size:13px">حمّل من</span><span class="disp" style="font-size:18px;font-weight:600">App Store</span></span></a>
+<a class="store light" href="#top"><svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M6 3.5v17a1 1 0 0 0 1.5.9l14-8.5a1 1 0 0 0 0-1.8l-14-8.5A1 1 0 0 0 6 3.5z"></path></svg><span style="display:flex;flex-direction:column;line-height:1.3;text-align:start"><span style="font-size:13px">حمّل من</span><span class="disp" style="font-size:18px;font-weight:600">Google Play</span></span></a>
+</div>
+</div>
+</section>
+
+<footer style="max-width:1200px;margin:0 auto;padding:32px 24px 48px;border-top:1px solid var(--line);display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:16px;font-size:15px;color:var(--muted)">
+<span>© ٢٠٢٦ وتيرة. جميع الحقوق محفوظة.</span>
+<nav aria-label="روابط التذييل" style="display:flex;flex-wrap:wrap;gap:8px 24px">
+<a href="#top" style="min-height:44px;display:inline-flex;align-items:center;text-decoration:none">سياسة الخصوصية</a>
+<a href="#top" style="min-height:44px;display:inline-flex;align-items:center;text-decoration:none">شروط الاستخدام</a>
+<a href="#top" style="min-height:44px;display:inline-flex;align-items:center;text-decoration:none">تواصل معنا</a>
+</nav>
+</footer>
+
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":1440,"height":4300}}'>
+class Component extends DCLogic {
+renderVals() {
+const dark = !!(this.state && this.state.dark);
+return {
+theme: dark ? 'dark' : 'light',
+isDark: dark,
+isLight: !dark,
+toggleTheme: () => this.setState({ dark: !(this.state && this.state.dark) }),
+tasks: [
+{ title: 'مراجعة تقرير المبيعات', time: '٩:٠٠ ص', done: true, open: false, delay: '.2s' },
+{ title: 'الرد على رسائل العملاء', time: '١٠:٣٠ ص', done: true, open: false, delay: '.5s' },
+{ title: 'اجتماع الفريق الأسبوعي', time: '١١:٠٠ ص', done: true, open: false, delay: '.8s' },
+{ title: 'جلسة تركيز: كتابة العرض', time: '٢٥ د', done: false, open: true, delay: '0s' },
+{ title: 'ترتيب مهام الغد', time: '٦:٠٠ م', done: false, open: true, delay: '0s' }
+],
+loops: [{ hidden: false }, { hidden: true }],
+bars: [
+{ d: 'س', h: '40px', o: 0.4 },
+{ d: 'ح', h: '64px', o: 0.4 },
+{ d: 'ن', h: '48px', o: 0.4 },
+{ d: 'ث', h: '88px', o: 1 },
+{ d: 'ر', h: '56px', o: 0.4 },
+{ d: 'خ', h: '32px', o: 0.4 },
+{ d: 'ج', h: '72px', o: 0.4 }
+]
+};
+}
+}
+</script>
+</body>
+</html>
